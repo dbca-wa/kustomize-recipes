@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-flask-app
+spec:
+  template:
+    spec:
+      containers:
+        - name: app
+          env:
+            - name: APP_STATUS
+              value: dev
+            - name: DEBUG
+              value: "true"

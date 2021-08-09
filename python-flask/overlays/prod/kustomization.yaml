@@ -1,0 +1,17 @@
+bases:
+- ../../base
+
+namePrefix: prod-
+
+commonLabels:
+  variant: prod
+
+configMapGenerator:
+- name: python-flask-app-env
+  envs:
+  - prod.env
+
+patches:
+- replica_count.yaml
+- custom-env.yaml
+- custom-config-map.yaml

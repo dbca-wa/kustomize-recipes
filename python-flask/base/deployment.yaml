@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-flask-app
+  template:
+    spec:
+      containers:
+      - name: app
+        image: dbcawa/python-helloworld:latest
+        env:
+          - name: TZ
+            value: Australia/Perth
