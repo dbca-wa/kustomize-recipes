@@ -1,9 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: wordpress-mysql
+spec:
+  template:
+    spec:
+      containers:
+      - name: mysql
+        env:
+        - name: MYSQL_DATABASE
+          value: wordpress
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: wordpress
-  labels:
-    app: wordpress
 spec:
   template:
     spec:
@@ -12,3 +23,5 @@ spec:
         env:
         - name: WORDPRESS_DB_HOST
           value: dev-wordpress-mysql
+        - name: WORDPRESS_DB_NAME
+          value: wordpress
