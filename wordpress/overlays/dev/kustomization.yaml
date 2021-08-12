@@ -1,0 +1,10 @@
+bases:
+- ../../base
+
+namePrefix: dev-
+
+commonLabels:
+  variant: dev
+
+patches:
+- custom-env.yaml

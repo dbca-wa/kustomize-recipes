@@ -1,0 +1,9 @@
+secretGenerator:
+- name: mysql-pass
+  literals:
+  - password=admin
+
+resources:
+- deployment.yaml
+- service.yaml
+- persistentvolumeclaim.yaml
