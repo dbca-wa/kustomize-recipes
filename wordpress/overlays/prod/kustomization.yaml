@@ -1,0 +1,11 @@
+bases:
+- ../../base
+
+namePrefix: prod-
+
+commonLabels:
+  variant: prod
+
+patches:
+- custom-env.yaml
+- persistentvolumeclaim.yaml
