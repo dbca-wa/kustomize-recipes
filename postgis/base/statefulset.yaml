@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      workloadselector: postgres-db
+  serviceName: postgres-db
+  template:
+    metadata:
+      labels:
+        workloadselector: postgres-db
+    spec:
+      initContainers:
+      - args:
+        - /bin/sh
+        - -c
+        - mkdir -p /data/data; mkdir -p /data/archivedir; chown -R 999:999 /data
+        image: busybox
+        name: postgres-db-init
+        volumeMounts:
+        - mountPath: /data
+          name: postgres-data
+      restartPolicy: Always
+      volumes:
+      - name: postgres-data
+        persistentVolumeClaim:
+          claimName: postgres-data
+      containers:
+      - args:
+        - -c
+        - max_connections=1000
+        - -c
+        - archive_mode=on
+        - -c
+        - archive_command=find /archivedir -mtime +7 -delete; lzma -c %p > /archivedir/%f.lzma
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pg-password
+              key: postgres_password
+        - name: POSTGRES_USER
+          value: demo_user
+        - name: POSTGRES_DB
+          value: demo_db
+        image: postgis/postgis:13-3.1
+        name: postgres-db
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-data
+          subPath: data
+        - mountPath: /archivedir
+          name: postgres-data
+          subPath: archivedir
+  updateStrategy:
+    type: RollingUpdate

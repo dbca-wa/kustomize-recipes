@@ -1,0 +1,8 @@
+secretGenerator:
+- name: pg-password
+  literals:
+  - postgres_password=StrongPassword
+
+resources:
+- persistentvolumeclaim.yaml
+- statefulset.yaml
