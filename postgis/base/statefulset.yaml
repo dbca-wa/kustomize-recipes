@@ -42,10 +42,6 @@ spec:
             secretKeyRef:
               name: pg-password
               key: postgres_password
-        - name: POSTGRES_USER
-          value: demo_user
-        - name: POSTGRES_DB
-          value: demo_db
         image: postgis/postgis:13-3.1
         name: postgres-db
         volumeMounts:
